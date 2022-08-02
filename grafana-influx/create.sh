@@ -17,5 +17,5 @@ sed -i 's|PERSISTANCE|'$pwd/influxdb/'|g' $CONFIGPATH'influxdb.yaml'
 mkdir -p $pwd/influxdb/
 chmod 777 -R $pwd/influxdb/
 #Start Infuxdb and Grafana containers
-microk8s kubectl apply -f $CONFIGPATH/influxdb.yaml
-microk8s kubectl apply -f $CONFIGPATH/grafana.yaml
+kubectl apply -f $CONFIGPATH/influxdb.yaml
+kubectl apply -f $CONFIGPATH/grafana.yaml

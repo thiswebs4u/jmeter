@@ -7,8 +7,8 @@ IP=""
 
 pwd=`pwd`
 #path to generate config files for kubernetes
-CONFIGPATH=$pwd/config/
-datadir=$pwd/data/
+CONFIGPATH=$pwd/kubernetes-init/config/
+datadir=$pwd/kubernetes-init/data/
 
 #create config directory
 mkdir -p $CONFIGPATH
@@ -16,7 +16,11 @@ mkdir -p $CONFIGPATH
 #slave
 while true
 do
- 
+
+# echo CONFIGPATH=$CONFIGPATH COUNTER=$COUNTER script=$script datadir=$datadir
+ echo COUNTER=$COUNTER
+ echo datadir=$datadir
+
  #create a config for slave
  cp jmeter-slave.yaml.bak $CONFIGPATH'slave'$COUNTER.yaml
  #modify values to slave
@@ -26,7 +30,7 @@ do
  #update datetime
  sed -i -e 's/DATETIME/'`date '+%Y-%m-%d_%H-%M-%S'`'/g' $CONFIGPATH'slave'$COUNTER.yaml
  #update persistance path
- sed -i 's|PERSISTANCE|'$datadir'|g' $CONFIGPATH'slave'$COUNTER.yaml
+ sed -i -e 's@PERSISTANCE@'$datadir'@g' $CONFIGPATH'slave'$COUNTER.yaml   # Problem
 
  echo Config for Slave$COUNTER created
 
@@ -46,11 +50,11 @@ done
 cp jmeter-master.yaml.bak $CONFIGPATH''master.yaml
 
 #update client ip's
-sed -i -e 's/SERVERS/'$IP'/g' $CONFIGPATH''master.yaml
+ sed -i -e 's/SERVERS/'$IP'/g' $CONFIGPATH''master.yaml
 
 #update script name
  sed -i -e 's/JMXSCRIPT/'$script'/g' $CONFIGPATH'master.yaml'
  #update datetime
  sed -i -e 's/DATETIME/'`date '+%Y-%m-%d_%H-%M-%S'`'/g' $CONFIGPATH'master.yaml'
  #update persistance path
- sed -i 's|PERSISTANCE|'$datadir'|g' $CONFIGPATH'master.yaml'
+ sed -i -e 's@PERSISTANCE@'$datadir'@g' $CONFIGPATH'master.yaml'

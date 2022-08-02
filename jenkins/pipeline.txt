@@ -12,27 +12,38 @@ pipeline {
 		}
 		stage('Pull Jmeter Image from registery') {
 			steps {
-			    sh 'docker pull karthiksurabathula/jmeter'
+			    sh 'docker pull thiswebs4u/jmeter'
 			}
 		}
         stage('Get latest Build from repository') {
             steps {
                 echo 'Pulling latest script from GIT'
-                git 'https://github.com/karthiksurabathula/jmeter.git'
+                git 'https://github.com/thiswebs4u/jmeter.git'
             }
         }
         stage('Build Kubernetese Config') {
             steps {
-                sh 'mkdir -p `pwd`/kubernetes-init/data/;cp `pwd`/data/script.jmx `pwd`/kubernetes-init/data/script.jmx;'
-                sh 'cd `pwd`/kubernetes-init/;chmod 775 create.sh;./create.sh 2 script.jmx'
-                sh 'mkdir -p `pwd`/kubernetes-init/data/logs/;mkdir -p `pwd`/kubernetes-init/data/results/;'
+                sh 'mkdir -p `pwd`/kubernetes-init/data/;'
+                sh 'cp `pwd`/data/script.jmx `pwd`/kubernetes-init/data/script.jmx;'
+                sh 'cd `pwd`/kubernetes-init/;'
+                sh 'echo pwd=`pwd`;'
+                sh 'chmod 775 `pwd`/kubernetes-init/create.sh;'
+                sh '`pwd`/kubernetes-init/create.sh 2 script.jmx'
+                sh 'mkdir -p `pwd`/kubernetes-init/data/logs/;'
+                sh 'mkdir -p `pwd`/kubernetes-init/data/results/;'
                 echo 'kubernetes configuration for Jmeter Masters and Slaves created successfully'
                 //echo "current build number: ${currentBuild.number}"
             }
         }
         stage('Deploying Jmeter Slave Pods') {
             steps {
-				sh 'cd `pwd`/kubernetes-init/config/; ls; i=1;while [ "$i" -le 2 ]; do  microk8s kubectl apply -f slave$i.yaml; i=$(( i + 1 )); done'
+				sh 'cd `pwd`/kubernetes-init/config/; 
+				sh 'ls;'
+				sh 'i=1;
+				sh 'while [ "$i" -le 2 ]; do  
+				sh 'kubectl apply -f slave$i.yaml;'
+				sh 'i=$(( i + 1 ));'
+				sh 'done'
 				sh 'sleep 60;'
                 echo 'Started Jmeter Slave Pods'
             }
@@ -42,7 +53,7 @@ pipeline {
 				echo 'Starting Execution'
                 sh 'cd `pwd`/kubernetes-init/config/; microk8s kubectl apply -f master.yaml'
                 sh 'sleep 60;'
-				sh 'microk8s kubectl logs master -f'
+				sh 'kubectl logs master -f'
                 
             }
         }
