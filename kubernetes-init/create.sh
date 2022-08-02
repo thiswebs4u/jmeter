@@ -9,6 +9,7 @@ pwd=`pwd`
 #path to generate config files for kubernetes
 CONFIGPATH=$pwd/kubernetes-init/config/
 datadir=$pwd/kubernetes-init/data/
+ROOT_K8S_INIT=$pwd/kubernetes-init/
 
 #create config directory
 mkdir -p $CONFIGPATH
@@ -18,11 +19,16 @@ while true
 do
 
 # echo CONFIGPATH=$CONFIGPATH COUNTER=$COUNTER script=$script datadir=$datadir
+ echo ROOT_K8S_INIT=$ROOT_K8S_INIT
+ echo CONFIGPATH=$CONFIGPATH
  echo COUNTER=$COUNTER
  echo datadir=$datadir
+ echo pwd=$pwd
+
+echo cp $ROOT_K8S_INIT'jmeter-slave.yaml.bak' $CONFIGPATH'slave'$COUNTER.yaml
 
  #create a config for slave
- cp jmeter-slave.yaml.bak $CONFIGPATH'slave'$COUNTER.yaml
+ cp $ROOT_K8S_INIT'jmeter-slave.yaml.bak' $CONFIGPATH'slave'$COUNTER.yaml
  #modify values to slave
  sed -i -e 's/master/slave'$COUNTER'/g' $CONFIGPATH'slave'$COUNTER.yaml
  #update script name
@@ -47,7 +53,7 @@ do
 done
 
 #master
-cp jmeter-master.yaml.bak $CONFIGPATH''master.yaml
+cp $ROOT_K8S_INIT'jmeter-master.yaml.bak' $CONFIGPATH''master.yaml
 
 #update client ip's
  sed -i -e 's/SERVERS/'$IP'/g' $CONFIGPATH''master.yaml
