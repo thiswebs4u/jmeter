@@ -30,13 +30,13 @@ echo cp $ROOT_K8S_INIT'jmeter-slave.yaml.bak' $CONFIGPATH'slave'$COUNTER.yaml
  #create a config for slave
  cp $ROOT_K8S_INIT'jmeter-slave.yaml.bak' $CONFIGPATH'slave'$COUNTER.yaml
  #modify values to slave
- sed -i -e 's/master/slave'$COUNTER'/g' $CONFIGPATH'slave'$COUNTER.yaml
+ sed -i '' 's/master/slave'$COUNTER'/g' $CONFIGPATH'slave'$COUNTER.yaml
  #update script name
- sed -i -e 's/JMXSCRIPT/'$script'/g' $CONFIGPATH'slave'$COUNTER.yaml
+ sed -i '' 's/JMXSCRIPT/'$script'/g' $CONFIGPATH'slave'$COUNTER.yaml
  #update datetime
- sed -i -e 's/DATETIME/'`date '+%Y-%m-%d_%H-%M-%S'`'/g' $CONFIGPATH'slave'$COUNTER.yaml
+ sed -i '' 's/DATETIME/'`date '+%Y-%m-%d_%H-%M-%S'`'/g' $CONFIGPATH'slave'$COUNTER.yaml
  #update persistance path
- sed -i -e 's@PERSISTANCE@'$datadir'@g' $CONFIGPATH'slave'$COUNTER.yaml   # Problem
+ sed -i '' 's@PERSISTANCE@'$datadir'@g' $CONFIGPATH'slave'$COUNTER.yaml   # Problem
 
  echo Config for Slave$COUNTER created
 
@@ -56,11 +56,10 @@ done
 cp $ROOT_K8S_INIT'jmeter-master.yaml.bak' $CONFIGPATH''master.yaml
 
 #update client ip's
- sed -i -e 's/SERVERS/'$IP'/g' $CONFIGPATH''master.yaml
-
+ sed -i '' 's/SERVERS/'$IP'/g' $CONFIGPATH''master.yaml
 #update script name
- sed -i -e 's/JMXSCRIPT/'$script'/g' $CONFIGPATH'master.yaml'
+ sed -i '' 's/JMXSCRIPT/'$script'/g' $CONFIGPATH'master.yaml'
  #update datetime
- sed -i -e 's/DATETIME/'`date '+%Y-%m-%d_%H-%M-%S'`'/g' $CONFIGPATH'master.yaml'
+ sed -i '' 's/DATETIME/'`date '+%Y-%m-%d_%H-%M-%S'`'/g' $CONFIGPATH'master.yaml'
  #update persistance path
- sed -i -e 's@PERSISTANCE@'$datadir'@g' $CONFIGPATH'master.yaml'
+ sed -i '' 's@PERSISTANCE@'$datadir'@g' $CONFIGPATH'master.yaml'
