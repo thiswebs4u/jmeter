@@ -43,6 +43,7 @@ echo cp $ROOT_K8S_INIT'jmeter-slave.yaml.bak' $CONFIGPATH'slave'$COUNTER.yaml
  #break 
  if [[ $COUNTER -eq $skip ]]; then
   IP=${IP}slave${COUNTER}
+  echo SKIPPING
   break
  else
   IP=${IP}slave${COUNTER},
@@ -51,6 +52,8 @@ echo cp $ROOT_K8S_INIT'jmeter-slave.yaml.bak' $CONFIGPATH'slave'$COUNTER.yaml
  let COUNTER=COUNTER+1
 
 done
+
+echo IP=$IP
 
 #master
 cp $ROOT_K8S_INIT'jmeter-master.yaml.bak' $CONFIGPATH''master.yaml
