@@ -14,7 +14,7 @@ pipeline {
 		}
 		stage('Pull Jmeter Image from registery') {
 			steps {
-			    sh 'docker pull karthiksurabathula/jmeter'
+			    sh 'docker pull test/jmeter'
 			}
 		}
         stage('Get latest Build from repository') {
