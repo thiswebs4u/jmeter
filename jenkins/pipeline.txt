@@ -12,11 +12,11 @@ pipeline {
 				}
 			}
 		}
-		stage('Pull Jmeter Image from registery') {
-			steps {
-			    sh 'docker pull test/jmeter'
-			}
-		}
+// 		stage('Pull Jmeter Image from registery') {
+// 			steps {
+//  			    sh 'docker pull test/jmeter'
+// 			}
+// 		}
         stage('Get latest Build from repository') {
             steps {
                 echo 'Pulling latest script from GIT'
