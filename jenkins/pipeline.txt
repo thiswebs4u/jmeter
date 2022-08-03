@@ -1,6 +1,8 @@
 pipeline {
     agent any
-	
+    environment { // Global
+        NUMBER_OF_SLAVES = 2
+    }
     stages {
 		stage('Clean up existing data') {
 			steps {
@@ -28,7 +30,7 @@ pipeline {
                 sh 'cd `pwd`/kubernetes-init/;'
                 sh 'echo pwd=`pwd`;'
                 sh 'chmod 775 `pwd`/kubernetes-init/create.sh;'
-                sh '`pwd`/kubernetes-init/create.sh 2 script.jmx'
+                sh '`pwd`/kubernetes-init/create.sh $NUMBER_OF_SLAVES script.jmx'
                 sh 'mkdir -p `pwd`/kubernetes-init/data/logs/;'
                 sh 'mkdir -p `pwd`/kubernetes-init/data/results/;'
                 echo 'kubernetes configuration for Jmeter Masters and Slaves created successfully'
@@ -37,7 +39,7 @@ pipeline {
         }
         stage('Deploying Jmeter Slave Pods') {
             steps {
-				sh 'cd `pwd`/kubernetes-init/config/; ls; i=1;while [ "$i" -le 2 ]; do kubectl apply -f slave$i.yaml; i=$(( i + 1 )); done'
+				sh 'cd `pwd`/kubernetes-init/config/; ls; i=1;while [ "$i" -le $NUMBER_OF_SLAVES ]; do kubectl apply -f slave$i.yaml; i=$(( i + 1 )); done'
 				sh 'sleep 60;'
                 echo 'Started Jmeter Slave Pods'
             }
