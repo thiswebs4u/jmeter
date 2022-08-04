@@ -10,13 +10,11 @@ ENV JMETER_BIN  ${JMETER_HOME}/bin
 #user.propertiesENV JMETER_DOWNLOAD_URL ${MIRROR_HOST}/binaries/apache-jmeter-${JMETER_VERSION}.tgz
 ENV JMETER_PLUGINS_DOWNLOAD_URL https://repo1.maven.org/maven2/kg/apc
 ENV JMETER_PLUGINS_FOLDER ${JMETER_HOME}/lib/ext/
-ENV JMETER_HOME /opt/jmeter/apache-jmeter-5.5/
+ENV JMETER_HOME /opt/jmeter/apache-jmeter-${JMETER_VERSION}/
 
-RUN mkdir /opt/jmeter \
-    && cd /opt/jmeter/ \
-    && wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.5.tgz \
-    && tar -xvzf apache-jmeter-5.5.tgz -C /opt \
-    && rm apache-jmeter-5.5.tgz
+RUN wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz \
+    && tar -xvzf apache-jmeter-${JMETER_VERSION}.tgz -C /opt \
+    && rm apache-jmeter-${JMETER_VERSION}.tgz
 
 COPY user.properties $JMETER_HOME/bin
 
