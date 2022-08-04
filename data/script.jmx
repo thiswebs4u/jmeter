@@ -207,7 +207,7 @@
               </elementProp>
               <elementProp name="percentiles" elementType="Argument">
                 <stringProp name="Argument.name">percentiles</stringProp>
-                <stringProp name="Argument.value">0.80f,0.90f;0.95f;0.99f</stringProp>
+                <stringProp name="Argument.value">99;95;90</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
               <elementProp name="testTitle" elementType="Argument">
