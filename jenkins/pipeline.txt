@@ -1,22 +1,17 @@
 pipeline {
     agent any
     environment { // Global
-        NUMBER_OF_SLAVES = 2
+        NUMBER_OF_SLAVES = 6
     }
     stages {
 		stage('Clean up existing data') {
 			steps {
-				dir('kubernetes-init/data') {
-					sh 'rm -rf *'
-					//echo "current build number: ${currentBuild.number}"
-				}
+			    dir('kubernetes-init/config') {
+			        deleteDir();
+
+			    }
 			}
 		}
-// 		stage('Pull Jmeter Image from registery') {
-// 			steps {
-//  			    sh 'docker pull test/jmeter'
-// 			}
-// 		}
         stage('Get latest Build from repository') {
             steps {
                 echo 'Pulling latest script from GIT'
@@ -56,7 +51,8 @@ pipeline {
         stage('Stopping Jmeter Pods') {
             steps {
                 sh 'cd `pwd`/kubernetes-init/config/; ls; kubectl delete -f .;'
-                echo 'Creating Pods for master & slave and Start execution'
+                sh 'echo pwd=`pwd`'
+                echo 'Stopping Jmeter Pods'
             }
         }
 		stage('Archive data') {
