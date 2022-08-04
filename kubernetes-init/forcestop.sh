@@ -1,4 +1,5 @@
 #!/bin/bash
 CONFIGPATH=`pwd`/config/
 #jmeter master and slaves
-microk8s kubectl delete -f $CONFIGPATH.
+echo CONFIGPATH=$CONFIGPATH
+kubectl delete -R -f $CONFIGPATH
