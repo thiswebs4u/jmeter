@@ -21,6 +21,7 @@ RUN wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_
 COPY user.properties ${JMETER_BIN}/
 COPY cmdrunner-2.2.jar ${JMETER_HOME}/
 COPY jmeter-plugins-manager-1.4.jar  ${JMETER_PLUGINS_FOLDER}/
+COPY jmeter-plugins-graphs-vs-2.0.jar  ${JMETER_PLUGINS_FOLDER}/
 
 #RUN curl -L ${JMETER_PLUGINS_DOWNLOAD_URL}/cmdrunner/2.2/cmdrunner-2.2.jar -o ${JMETER_HOME}/lib/cmdrunner-2.2.jar
 #RUN curl -L ${JMETER_PLUGINS_DOWNLOAD_URL}/jmeter-plugins-manager/{$PLUGIN_MAN_VERSION}/jmeter-plugins-manager-{$PLUGIN_MAN_VERSION}.jar -o ${JMETER_PLUGINS_FOLDER}/jmeter-plugins-manager-{$PLUGIN_MAN_VERSION}.jar
