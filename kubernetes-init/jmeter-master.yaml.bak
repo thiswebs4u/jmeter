@@ -8,7 +8,7 @@ spec:
   containers:
   - name: master
     imagePullPolicy: IfNotPresent
-    image: test/jmeter
+    image: jmeter
     args: ["-n -t /mnt/jmeter/JMXSCRIPT -l /mnt/jmeter/results/result-DATETIME.jtl -j /mnt/jmeter/logs/master-log-DATETIME.log  -e -o /mnt/jmeter/HtmlReport-DATETIME -R SERVERS"]
     env:
     - name: JVM_ARGS
