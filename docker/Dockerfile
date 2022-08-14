@@ -22,6 +22,7 @@ RUN wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_
 COPY user.properties ${JMETER_BIN}/
 COPY cmdrunner-2.2.jar ${JMETER_LIB}
 COPY jmeter-plugins-manager-1.4.jar  ${JMETER_PLUGINS_FOLDER}/
+COPY jmeter-plugins-graphs-vs-2.0.jar  ${JMETER_PLUGINS_FOLDER}/
 
 COPY plugins/lib/jmeter-plugins-cmn-jmeter-0.6.jar  ${JMETER_LIB}
 COPY plugins/lib/ext/jmeter-plugins-casutg-2.9.jar  ${JMETER_PLUGINS_FOLDER}
