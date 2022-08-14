@@ -15,11 +15,18 @@ spec:
       labels:
         app: master
     spec:
+      securityContext:
+        runAsUser: 1000
+        fsGroup: 1000
+      volumes:
+        - name: jmeter-storage
+          persistentVolumeClaim:
+            claimName: jmeter-claim
       containers:
       - name: master
         imagePullPolicy: IfNotPresent
-        image: jmeter
-        args: ["-n -t /mnt/jmeter/JMXSCRIPT -l /mnt/jmeter/results/result-DATETIME.jtl -j /mnt/jmeter/logs/master-log-DATETIME.log -R SERVERS"]
+        image: test/jmeter
+        args: ["-n -t /etc/jmeter/JMXSCRIPT -l /etc/jmeter/results/result-DATETIME.jtl -j /etc/jmeter/logs/master-log-DATETIME.log -R SERVERS"]
         env:
         - name: JVM_ARGS
           value: "-Xms512m -Xmx1024m"
@@ -33,13 +40,8 @@ spec:
             cpu: 1000m
             memory: 1024Mi
         volumeMounts:
-          - name: master
-            mountPath: /mnt/jmeter
-      volumes:
-      - name: master
-        hostPath:
-          path: PERSISTANCE
-          type: DirectoryOrCreate 
+            - mountPath: "/etc/jmeter"
+              name: jmeter-storage
 ---
 
 apiVersion: v1

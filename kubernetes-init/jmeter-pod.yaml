@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: jmp
+spec:
+  volumes:
+    - name: jmeter-storage
+      persistentVolumeClaim:
+        claimName: jmeter-claim
+  containers:
+    - name: jmeter-container
+      image: nginx
+      imagePullPolicy: IfNotPresent
+      ports:
+        - containerPort: 80
+          name: "http-server"
+      volumeMounts:
+        - mountPath: "/etc/jmeter"
+          name: jmeter-storage
