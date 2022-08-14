@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: iedi-apis-local
+  name: iedi-apis
   labels:
-    name: iedi-apis-local
+    name: iedi-apis
     istio-injection: enabled

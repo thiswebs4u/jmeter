@@ -16,5 +16,6 @@ if [ "$mode" == "master" ]; then
 else
   jmeter-server >>  /etc/jmeter/logs/$mode-jmeter-server_`date '+%Y-%m-%d_%H-%M-%S'`.log
 fi
-	
+
+echo `whoami`
 echo "END Running Jmeter on `date`"

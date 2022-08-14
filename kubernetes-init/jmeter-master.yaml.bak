@@ -6,8 +6,8 @@ metadata:
   name: master
 spec:
   securityContext:
-    runAsUser: 1000
-    fsGroup: 1000
+    runAsUser: 0
+    fsGroup: 0
   volumes:
     - name: jmeter-storage
       persistentVolumeClaim:

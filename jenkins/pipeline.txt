@@ -6,9 +6,10 @@ pipeline {
     stages {
 		stage('Clean up existing data') {
 			steps {
-			    dir('kubernetes-init/config') {
-			        deleteDir();
-
+			    //sh 'cd `pwd`/kubernetes-init/config/; rm -rf *;'
+			   sh "pwd"
+			    dir('kubernetes-init/data') {
+			   sh "pwd"
 			    }
 			}
 		}
