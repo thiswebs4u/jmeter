@@ -17,27 +17,27 @@ spec:
           persistentVolumeClaim:
             claimName: jmeter-claim
       containers:
-      - name: master
-        imagePullPolicy: IfNotPresent
-        image: iedibootstrapcentralus836e416d.azurecr.io/test/jmeter:0.6
+        - name: master
+          imagePullPolicy: IfNotPresent
+          image: iedibootstrapcentralus836e416d.azurecr.io/test/jmeter:0.6
 #        command: ["jmeter-server"]
-        args: ["-n -t /etc/jmeter/JMXSCRIPT -l /etc/jmeter/results/result-DATETIME.jtl -j /etc/jmeter/logs/master-log-DATETIME.log -R SERVERS"]
-        env:
-        - name: JVM_ARGS
-          value: "-Xms512m -Xmx1024m"
-        - name: mode
-          value: "master"
-        resources:
-          limits:
-            memory: 1024Mi
-            cpu: 1000m
-          requests:
-            cpu: 1000m
-            memory: 1024Mi
-        volumeMounts:
-        - mountPath: "/etc/jmeter"
-          name: jmeter-storage
+          args: ["-n -t /etc/jmeter/JMXSCRIPT -l /etc/jmeter/results/result-DATETIME.jtl -j /etc/jmeter/logs/master-log-DATETIME.log -R SERVERS"]
+          env:
+          - name: JVM_ARGS
+            value: "-Xms512m -Xmx1024m"
+          - name: mode
+            value: "master"
+          resources:
+            limits:
+              memory: 1024Mi
+              cpu: 1000m
+            requests:
+              cpu: 1000m
+              memory: 1024Mi
       restartPolicy: Never
+    volumeMounts:
+    - mountPath: "/etc/jmeter"
+      name: jmeter-storage
   backoffLimit: 4
 ---
 
