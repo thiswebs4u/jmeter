@@ -3,44 +3,42 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: jmeter
+  # Unique key of the Job instance
+  name: master
   labels:
     jobgroup: iedi-apis
 spec:
   template:
+    metadata:
+      name: master
     spec:
-      template:
-        metadata:
-          labels:
-            app: master
-        spec:
-          securityContext:
-            runAsUser: 0
-            fsGroup: 0
-          volumes:
-            - name: jmeter-storage
-              persistentVolumeClaim:
-                claimName: jmeter-claim
-          containers:
-          - name: master
-            imagePullPolicy: IfNotPresent
-            image: iedibootstrapcentralus836e416d.azurecr.io/test/jmeter:0.6
-            args: ["-n -t /etc/jmeter/JMXSCRIPT -l /etc/jmeter/results/result-DATETIME.jtl -j /etc/jmeter/logs/master-log-DATETIME.log -R SERVERS"]
-            env:
-            - name: JVM_ARGS
-              value: "-Xms512m -Xmx1024m"
-            - name: mode
-              value: "master"
-            resources:
-              limits:
-                memory: 1024Mi
-                cpu: 1000m
-              requests:
-                cpu: 1000m
-                memory: 1024Mi
-            volumeMounts:
-                - mountPath: "/etc/jmeter"
-                  name: jmeter-storage
+      securityContext:
+        runAsUser: 0
+        fsGroup: 0
+      volumes:
+        - name: jmeter-storage
+          persistentVolumeClaim:
+            claimName: jmeter-claim
+      containers:
+      - name: master
+        imagePullPolicy: IfNotPresent
+        image: iedibootstrapcentralus836e416d.azurecr.io/test/jmeter:0.6
+        args: ["-n -t /etc/jmeter/JMXSCRIPT -l /etc/jmeter/results/result-DATETIME.jtl -j /etc/jmeter/logs/master-log-DATETIME.log -R SERVERS"]
+        env:
+        - name: JVM_ARGS
+          value: "-Xms512m -Xmx1024m"
+        - name: mode
+          value: "master"
+        resources:
+          limits:
+            memory: 1024Mi
+            cpu: 1000m
+          requests:
+            cpu: 1000m
+            memory: 1024Mi
+        volumeMounts:
+            - mountPath: "/etc/jmeter"
+              name: jmeter-storage
 ---
 
 
