@@ -1,44 +1,59 @@
 ---
 
-apiVersion: batch/v1
-kind: Job
+apiVersion: apps/v1
+kind: StatefulSet
 metadata:
-  name: jmeter
-  labels:
-    jobgroup: iedi-apis
+  name: master
 spec:
+  selector:
+    matchLabels:
+      app: master
+  serviceName: master
+  replicas: 1
   template:
+    metadata:
+      labels:
+        app: master
     spec:
-#      securityContext:
-#        runAsUser: 0
-#        fsGroup: 0
+      securityContext:
+        runAsUser: 0
+        fsGroup: 0
       volumes:
         - name: jmeter-storage
           persistentVolumeClaim:
             claimName: jmeter-claim
       containers:
-        - name: master
-          imagePullPolicy: IfNotPresent
-          image: iedibootstrapcentralus836e416d.azurecr.io/test/jmeter:0.6
-#        command: ["jmeter-server"]
-          args: ["-n -t /etc/jmeter/JMXSCRIPT -l /etc/jmeter/results/result-DATETIME.jtl -j /etc/jmeter/logs/master-log-DATETIME.log -R SERVERS"]
-          env:
-          - name: JVM_ARGS
-            value: "-Xms512m -Xmx1024m"
-          - name: mode
-            value: "master"
-          resources:
-            limits:
-              memory: 1024Mi
-              cpu: 1000m
-            requests:
-              cpu: 1000m
-              memory: 1024Mi
-          volumeMounts:
-          - mountPath: "/etc/jmeter"
-            name: jmeter-storage
-      restartPolicy: Never
-  backoffLimit: 4
+      - name: master
+        imagePullPolicy: IfNotPresent
+        image: iedibootstrapcentralus836e416d.azurecr.io/test/jmeter:0.6
+        args: ["-n -t /etc/jmeter/JMXSCRIPT -l /etc/jmeter/results/result-DATETIME.jtl -j /etc/jmeter/logs/master-log-DATETIME.log -R SERVERS"]
+        env:
+        - name: JVM_ARGS
+          value: "-Xms512m -Xmx1024m"
+        - name: mode
+          value: "master"
+        resources:
+          limits:
+            memory: 1024Mi
+            cpu: 1000m
+          requests:
+            cpu: 1000m
+            memory: 1024Mi
+        volumeMounts:
+            - mountPath: "/etc/jmeter"
+              name: jmeter-storage
 ---
 
+apiVersion: v1
+kind: Service
+metadata:
+  name: master
+spec:
+  selector:
+    app: master
+  ports:
+    - name: master
+      port: 1099
+  type: ClusterIP
 
+---
