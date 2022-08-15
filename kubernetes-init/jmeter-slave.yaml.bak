@@ -2,7 +2,9 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: master
+  name: jmeter
+  labels:
+    jobgroup: iedi-apis
 spec:
   template:
     spec:
