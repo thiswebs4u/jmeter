@@ -39,7 +39,7 @@ spec:
         volumeMounts:
             - mountPath: "/etc/jmeter"
               name: jmeter-storage
-    restartPolicy: Never
+      restartPolicy: Never
   backoffLimit: 4
 ---
 
