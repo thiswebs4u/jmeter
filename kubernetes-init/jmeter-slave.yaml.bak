@@ -25,7 +25,7 @@ spec:
       containers:
       - name: master
         imagePullPolicy: IfNotPresent
-        image: test/jmeter
+        image: iedibootstrapcentralus836e416d.azurecr.io/test/jmeter:0.6
         args: ["-n -t /etc/jmeter/JMXSCRIPT -l /etc/jmeter/results/result-DATETIME.jtl -j /etc/jmeter/logs/master-log-DATETIME.log -R SERVERS"]
         env:
         - name: JVM_ARGS
