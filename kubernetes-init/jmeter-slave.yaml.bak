@@ -9,10 +9,6 @@ metadata:
 spec:
   template:
     spec:
-      selector:
-        matchLabels:
-          app: master
-      replicas: 1
       template:
         metadata:
           labels:
