@@ -2,14 +2,9 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  # Unique key of the Job instance
   name: master
-  labels:
-    jobgroup: iedi-apis
 spec:
   template:
-    metadata:
-      name: master
     spec:
       securityContext:
         runAsUser: 0
