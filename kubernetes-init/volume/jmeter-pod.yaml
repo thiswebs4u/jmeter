@@ -10,8 +10,8 @@ spec:
         claimName: jmeter-claim
   containers:
     - name: jmeter-container
-#      image: nginx
-      image: test/jmeter
+      image: nginx
+#      image: test/jmeter
       imagePullPolicy: IfNotPresent
       ports:
         - containerPort: 80
