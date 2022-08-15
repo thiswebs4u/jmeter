@@ -35,9 +35,9 @@ spec:
               cpu: 1000m
               memory: 1024Mi
       restartPolicy: Never
-    volumeMounts:
-    - mountPath: "/etc/jmeter"
-      name: jmeter-storage
+      volumeMounts:
+      - mountPath: "/etc/jmeter"
+        name: jmeter-storage
   backoffLimit: 4
 ---
 
