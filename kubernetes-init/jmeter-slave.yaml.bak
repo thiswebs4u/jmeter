@@ -1,15 +1,10 @@
 ---
 
-apiVersion: apps/v1
-kind: StatefulSet
+apiVersion: batch/v1
+kind: Job
 metadata:
   name: master
 spec:
-  selector:
-    matchLabels:
-      app: master
-  serviceName: master
-  replicas: 1
   template:
     metadata:
       labels:
