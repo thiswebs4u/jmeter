@@ -36,4 +36,4 @@ COPY ./launch.sh /
 RUN chmod +x /launch.sh
 
 ENTRYPOINT ["/launch.sh"]
-CMD ["-n -t /etc/jmeter/script.jmx -l /etc/jmeter/results/reslut-$(date +'%m_%d_%Y-%H_%M_%S_%N').jtl -j /etc/jmeter/logs/master-log-$(date +'%m_%d_%Y-%H_%M_%S_%N').log"]
+#CMD ["-n -t /etc/jmeter/script.jmx -l /etc/jmeter/results/reslut-$(date +'%m_%d_%Y-%H_%M_%S_%N').jtl -j /etc/jmeter/logs/master-log-$(date +'%m_%d_%Y-%H_%M_%S_%N').log"]
