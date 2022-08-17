@@ -1,24 +1,35 @@
 pipeline {
     agent any
     environment { // Global
-        NUMBER_OF_SLAVES = 6
+        NUMBER_OF_SLAVES = 1
     }
     stages {
-		stage('Clean up existing data') {
-			steps {
-			    //sh 'cd `pwd`/kubernetes-init/config/; rm -rf *;'
-			   sh "pwd"
-			    dir('kubernetes-init/data') {
-			   sh "pwd"
-			    }
-			}
-		}
         stage('Get latest Build from repository') {
             steps {
                 echo 'Pulling latest script from GIT'
                 git 'https://github.com/thiswebs4u/jmeter.git'
             }
         }
+		stage('Clean up existing data') {
+			steps {
+//			      sh 'cd `pwd`/kubernetes-init/; ls; kubectl delete -R -f config;'
+			      dir('data') {
+			            sh 'kubectl cp `pwd`/script.jmx jmp:/etc/jmeter'
+			            sh 'kubectl exec pod/jmp -- mkdir -p /etc/jmeter/logs'
+			            sh 'kubectl exec pod/jmp -- mkdir -p /etc/jmeter/results'
+			            sh 'kubectl exec pod/jmp -- chown root:root -R /etc/jmeter'
+			            sh 'kubectl exec pod/jmp -- chmod 777 -R /etc/jmeter'  // Just for now
+
+			            //sh 'kubectl exec pod/jmp -- chown root:root /etc/jmeter/script.jmx'
+			            //sh 'kubectl exec pod/jmp -- chown root:root /etc/jmeter'
+			            //sh 'kubectl exec pod/jmp -- chown root:root /etc/jmeter/logs'
+			            //sh 'kubectl exec pod/jmp -- chown root:root /etc/jmeter/results'
+			      }
+			      dir('kubernetes-init/config') {
+			            sh 'rm -rf *'
+			      }
+			}
+		}
         stage('Build Kubernetese Config') {
             steps {
                 sh 'mkdir -p `pwd`/kubernetes-init/data/;'
@@ -45,7 +56,7 @@ pipeline {
 				echo 'Starting Execution'
                 sh 'cd `pwd`/kubernetes-init/config/; kubectl apply -f master.yaml'
                 sh 'sleep 60;'
-				sh 'kubectl logs master -f'
+				sh 'kubectl logs $(kubectl get pods --selector=job-name=master --output=jsonpath=\'{.items[*].metadata.name}\') -f'
 
             }
         }
@@ -59,6 +70,7 @@ pipeline {
 		stage('Archive data') {
 			steps {
 				dir('kubernetes-init/data') {
+				    sh 'kubectl cp jmp:/etc/jmeter .'
 					archiveArtifacts artifacts: '**'
 				}
 			}
