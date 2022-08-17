@@ -15,7 +15,7 @@ spec:
       labels:
         app: master
     spec:
-      restartPolicy: "Never"
+#      restartPolicy: "Never"
       securityContext:
         runAsUser: 0
         fsGroup: 0
